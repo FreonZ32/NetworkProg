@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadHunter", "HeadHunter\HeadHunter.csproj", "{704FDB12-6F26-4EA9-AC81-A15DCFF06C2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HeadHunter", "HeadHunter\HeadHunter.csproj", "{704FDB12-6F26-4EA9-AC81-A15DCFF06C2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddNetVisitation", "AddNetVisitation\AddNetVisitation.csproj", "{890FAA1B-E597-4FB7-AE2A-8E7DEA9F8D8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{704FDB12-6F26-4EA9-AC81-A15DCFF06C2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{704FDB12-6F26-4EA9-AC81-A15DCFF06C2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{704FDB12-6F26-4EA9-AC81-A15DCFF06C2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{890FAA1B-E597-4FB7-AE2A-8E7DEA9F8D8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{890FAA1B-E597-4FB7-AE2A-8E7DEA9F8D8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{890FAA1B-E597-4FB7-AE2A-8E7DEA9F8D8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{890FAA1B-E597-4FB7-AE2A-8E7DEA9F8D8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
