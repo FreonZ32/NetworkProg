@@ -1,14 +1,22 @@
 ﻿using AddNetVisitation;
+using System.IO;
 
 var dbservice = new StudentsVisitationService();
-//dbservice.CreateTable();
+string thisPath = Environment.CurrentDirectory;
+thisPath += "\\myappdb.db";
+bool fileExist = File.Exists(thisPath);
+if (!fileExist)
+{
+    dbservice.CreateTable();
+    Console.WriteLine("Папка с бд не найдена! Создали новую. Для продолжения, нажмите любую кнопку.");
+    Console.ReadLine();
+}
 var key = ConsoleKey.M;
 while (key != ConsoleKey.Escape)
 {
     switch(key)
     {
-        case ConsoleKey.D1:
-            Console.Write("\rВведите имя ученика: ");
+        case ConsoleKey.D1:Console.Write("\rВведите имя ученика: ");
             string? name = Console.ReadLine();
             if (name != null && name != "")
             {
@@ -20,7 +28,7 @@ while (key != ConsoleKey.Escape)
                     {
                         switch (key)
                         {
-                            case ConsoleKey.Y: dbservice.FillVisitations(name, DateOnly.FromDateTime(DateTime.Now)); Console.WriteLine("Ученик добавлен!"); break;
+                            case ConsoleKey.Y: dbservice.FillVisitations(name, DateOnly.FromDateTime(DateTime.Now)); Console.WriteLine("\rУченик добавлен!"); break;
                             case ConsoleKey.N:
                                 Console.WriteLine("\rВведите дату формата дд-мм-гггг");
                                 string? userDate = Console.ReadLine();
