@@ -1,4 +1,5 @@
 ﻿namespace AddNetVisitation
 {
-    public record Visitation(long Id, string Name,DateOnly Date);
+    public record VisitationNames(long Id, string Name);
+    public record VisitationPTB(long Id, string Date);
 }

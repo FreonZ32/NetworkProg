@@ -1,9 +1,13 @@
 ﻿using AddNetVisitation;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
+using System.Text.RegularExpressions;
 
 var dbservice = new StudentsVisitationService();
 string thisPath = Environment.CurrentDirectory;
+string? name;
 thisPath += "\\myappdb.db";
+var next = "\nДля продолжения нажмите любую клавишу.";
 bool fileExist = File.Exists(thisPath);
 if (!fileExist)
 {
@@ -16,9 +20,11 @@ while (key != ConsoleKey.Escape)
 {
     switch(key)
     {
-        case ConsoleKey.D1:Console.Write("\rВведите имя ученика: ");
-            string? name = Console.ReadLine();
-            if (name != null && name != "")
+        case ConsoleKey.D1:
+            
+            Console.Write("\rВведите имя ученика:");
+            name = Console.ReadLine();
+            if (name != null && name != "" && Regex.IsMatch(name, "[a-zA-Z]") && !Regex.IsMatch(name, "\\s"))
             {
                 if (dbservice.FindSameName(name) != true)
                 {
@@ -28,50 +34,133 @@ while (key != ConsoleKey.Escape)
                     {
                         switch (key)
                         {
-                            case ConsoleKey.Y: dbservice.FillVisitations(name, DateOnly.FromDateTime(DateTime.Now)); Console.WriteLine("\rУченик добавлен!"); break;
+                            case ConsoleKey.Y: dbservice.CreatePersonalTable(name, DateOnly.FromDateTime(DateTime.Now)); Console.WriteLine("\rДата успешно добавлена!" + next);
+                                Console.ReadKey();
+                                key = ConsoleKey.Escape;
+                                    break;
                             case ConsoleKey.N:
-                                Console.WriteLine("\rВведите дату формата дд-мм-гггг");
-                                string? userDate = Console.ReadLine();
-                                DateOnly date;
-                                if (DateOnly.TryParseExact(userDate,"dd-mm-yyyy", out date) == true)
+                                while(key != ConsoleKey.Escape)
                                 {
-                                    dbservice.FillVisitations(name, date);
-                                    Console.WriteLine($"\rУченик успешно добавлен с датой '{date}'. \nДля продолжения нажмите любую клавишу.");
-                                    Console.ReadKey();
-                                    key = ConsoleKey.Escape;
+                                    Console.WriteLine("\rВведите дату формата дд-мм-гггг");
+                                    string? userDate = Console.ReadLine();
+                                    DateOnly date;
+                                    if (DateOnly.TryParseExact(userDate, "dd-mm-yyyy", out date) == true)
+                                    {
+                                        dbservice.CreatePersonalTable(name, date);
+                                        Console.WriteLine($"\rУченик успешно добавлен с датой '{date}'."+next);
+                                        Console.ReadKey();
+                                        key = ConsoleKey.Escape;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Дата введена не правильно! Пример: \"23-12-2001\"." + next);
+                                        Console.ReadLine();
+                                    }
                                 }
-                                else Console.WriteLine("Дата введена не правильно!");
                                 break;
-                            default: break;
                         }
                     } while (key != ConsoleKey.Y && key != ConsoleKey.N && key != ConsoleKey.Escape);
-                    if (key == ConsoleKey.Escape) key = ConsoleKey.M;
+                    key = ConsoleKey.M;
                 }
                 else
                 {
-                    Console.WriteLine("Ученик с таким именем уже есть! \nДля продолжения нажмите любую клавишу.");
+                    Console.WriteLine("Ученик с таким именем уже есть!" + next);
                     Console.ReadKey();
                     key = ConsoleKey.M;
                 }
             }
             else 
             { 
-                Console.WriteLine("Поле ввода пусто! \nДля продолжения нажмите любую клавишу.");
+                if(name == null || name == "")Console.WriteLine("Поле ввода пусто!" + next);
+                else Console.WriteLine("Неверный формат имени! Уберите пробелы, цифры и прочие знаки!" + next);
                 Console.ReadKey();
                 key = ConsoleKey.M;
             }
-            ;break;
-        case ConsoleKey.D2:Console.WriteLine("\rНажата клавиша 2;\n");break;
-        case ConsoleKey.D3:Console.WriteLine
-            ("\r" +string.Join
-                (
-                    Environment.NewLine, dbservice.GetVisitations().Select
-                    (it => it.ToString())
-                )
-            );
-            Console.Write("Для продолжения нажмите любую кнопку.");
-            Console.ReadKey();
-            key = ConsoleKey.M;
+                break;
+        case ConsoleKey.D2:
+            Console.Write("\rВведите имя ученика:");
+            List<VisitationPTB> visits = new List<VisitationPTB>();
+            name = Console.ReadLine();
+            if (name != null && name != "" && Regex.IsMatch(name, "[a-zA-Z]") && !Regex.IsMatch(name, "\\s"))
+            {
+
+                if (dbservice.FindSameName(name) == true)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Учащийся:"+name);
+                    Console.WriteLine("Выберите одно из действий:\n1 - Добавить дату посещения\n2 - Показать все даты посещения\n3 - Удалить ученика");
+                    key = Console.ReadKey().Key;
+                    switch (key)
+                    {
+                        case ConsoleKey.D1:
+                            Console.WriteLine("\rВвести текущую дату? Y/N Вы так же можете отменить добавление ученика нажатием клавиши 'Esc'");
+                            key = Console.ReadKey().Key;
+                            do
+                            {
+                                switch (key)
+                                {
+                                    case ConsoleKey.Y:
+                                        dbservice.FillVisitationByName(name, DateOnly.FromDateTime(DateTime.Now)); Console.WriteLine("\rДата успешно добавлена!" + next);
+                                        Console.ReadKey();
+                                        key = ConsoleKey.Escape;
+                                        break;
+                                    case ConsoleKey.N:
+                                        while (key != ConsoleKey.Escape)
+                                        {
+                                            Console.WriteLine("\rВведите дату формата дд-мм-гггг");
+                                            string? userDate = Console.ReadLine();
+                                            DateOnly date;
+                                            if (DateOnly.TryParseExact(userDate, "dd-mm-yyyy", out date) == true)
+                                            {
+                                                dbservice.FillVisitationByName(name, date);
+                                                Console.WriteLine($"\rДата успешно добавлена!" + next);
+                                                Console.ReadKey();
+                                                key = ConsoleKey.Escape;
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("Дата введена не правильно! Пример: \"23-12-2001\"." + next);
+                                                Console.ReadLine();
+                                            }
+                                        }
+                                        break;
+                                }
+                            } while (key != ConsoleKey.Y && key != ConsoleKey.N && key != ConsoleKey.Escape);
+                            key = ConsoleKey.M;
+                            break;
+                        case ConsoleKey.D2:
+                            Console.Clear();
+                            Console.WriteLine("Учащийся:" + name);
+                            visits = dbservice.ShowVisitationByName(name);
+                            foreach (VisitationPTB visit in visits)
+                            {
+                                Console.Write(visit.Date.ToString() + " ");
+                            }
+                            Console.Write("\n" + next);
+                            Console.ReadLine();
+                            break;
+                        case ConsoleKey.D3:
+                            dbservice.DeletePersonalTable(name);
+                            Console.Write("\nДанные успешно удалены!" + next);
+                            Console.ReadLine();
+                            break;
+                    }
+                }
+                else
+                    {
+                        Console.Write("Такого имени не найдено!");
+                        Console.Write("\n" + next);
+                        Console.ReadLine();
+                    }
+                }
+            else Console.WriteLine("Неверный формат имени! Уберите пробелы, цифры и прочие знаки!" + next);
+                Console.ReadKey();
+                key = ConsoleKey.M;
+                break;
+        case ConsoleKey.D3: 
+            dbservice.ShowAllVisitations(); 
+            Console.WriteLine(next);Console.ReadLine(); 
+            key = ConsoleKey.M; 
             break;
     }
     if(key == ConsoleKey.M) 
