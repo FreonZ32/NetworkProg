@@ -21,21 +21,29 @@ namespace EFnetVisitations
     /// </summary>
     public partial class MainWindow : Window
     {
+        private DBContext _db = new DBContext();
+        List<Student> studentList;
         public MainWindow()
         {
             InitializeComponent();
+            studentList = new List<Student>();
+            UpDateMainTable();
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            await using var db = new DBContext();
-            await db.Database.EnsureCreatedAsync();
-            await db.Students.AddAsync(new Student() { Name = "Adam", Birthday = DateTime.Now });
-            await db.Students.AddAsync(new Student() { Name = "Saver", Birthday = DateTime.Today.AddDays(-2) });
-            await db.Students.AddAsync(new Student() { Name = "Gagga", Birthday =  DateTime.Today.AddDays(-1)});
-            await db.SaveChangesAsync();
-            var students = await db.Students.ToListAsync();
-            studentsDG.ItemsSource = students;
+            if(FirstNameTB.Text!=""&&LastNameTB.Text!="")
+            {
+                await _db.Students.AddAsync(new Student() { Name = FirstNameTB.Text + " " + LastNameTB.Text, Birthday = (DateTime)BirthDayDP.SelectedDate});
+                await _db.SaveChangesAsync();
+                UpDateMainTable();
+                MessageBox.Show("Успешно добавлен!");
+            }
+        }
+        public async void UpDateMainTable() 
+        {
+            studentList = await _db.Students.ToListAsync();
+            MainStudentListDG.ItemsSource = studentList;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace EFnetVisitations
 {
     internal class DBContext : DbContext
     {
-        private const string ConnectionString = "Data Source=hello.db";
+        private const string ConnectionString = "Data Source=G:\\Visual Studio\\2022\\Repositories\\NetworkProg\\EFnetVisitations\\bin\\Debug\\net7.0-windows\\hello.db";
 
         protected override void OnConfiguring(
             DbContextOptionsBuilder optionsBuilder)
