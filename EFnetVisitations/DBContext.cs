@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using EFnetVisitations.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFnetVisitations
@@ -19,5 +20,6 @@ namespace EFnetVisitations
         }
 
         public DbSet<Student> Students => Set<Student>();
+        public DbSet<Visit> Visits=> Set<Visit>();
     }
 }

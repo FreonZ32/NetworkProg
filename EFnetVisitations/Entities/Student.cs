@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EFnetVisitations
+namespace EFnetVisitations.Entities
 {
     internal class Student
     {
@@ -12,6 +12,10 @@ namespace EFnetVisitations
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public DateTime Birthday { get; set; }
-        //public List<DateOnly>Visits {get; set; } = new List<DateOnly>();
+
+        public override string ToString()
+        {
+            return FirstName+LastName;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EFnetVisitations.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -24,16 +25,20 @@ namespace EFnetVisitations
     {
         private DBContext _db = new DBContext();
         List<Student> studentList;
+        List<Visit> visitsList;
         Student selectedStudent;
-        int selectedIndex= 0;
+        int StudentListselectedIndex= 0;
+        int VisitsListselectedIndex= 0;
         bool changedOn = false;
 
         public MainWindow()
         {
             InitializeComponent();
             studentList = new List<Student>();
+            visitsList = new List<Visit>();
             selectedStudent= new Student();   
-            UpDateMainTable();
+            UpDateStudentsTable();
+            UpDateVisitsTable();
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -51,7 +56,7 @@ namespace EFnetVisitations
                     await _db.SaveChangesAsync();
                     AddBTN.Content = "Изменить";
                     changedOn = false;
-                    UpDateMainTable();
+                    UpDateStudentsTable();
                     MessageBox.Show("Данные ученика успешно изменены!");
                 }
                 else MessageBox.Show("Заполните все поля!");
@@ -62,23 +67,29 @@ namespace EFnetVisitations
                 {
                     await _db.Students.AddAsync(new Student() { FirstName = FirstNameTB.Text, LastName = LastNameTB.Text, Birthday = (DateTime)BirthDayDP.SelectedDate });
                     await _db.SaveChangesAsync();
-                    UpDateMainTable();
+                    UpDateStudentsTable();
                     MessageBox.Show("Успешно добавлен!");
                 }
                 else MessageBox.Show("Заполните все поля!");
             }
         }
-        public async void UpDateMainTable()
+        public async void UpDateStudentsTable()
         {
             studentList = await _db.Students.ToListAsync();
             MainStudentListDG.ItemsSource = studentList;
+        }
+        public async void UpDateVisitsTable()
+        {
+            visitsList = await _db.Visits.Include(visit => visit.Student).ToListAsync();
+            StudentVisitationsListDG.ItemsSource = visitsList;
         }
 
         private void MainStudentListDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (MainStudentListDG.SelectedIndex+1!=MainStudentListDG.Items.Count && MainStudentListDG.SelectedIndex!=-1)
             {
-                selectedIndex = MainStudentListDG.SelectedIndex;
+                StudentListselectedIndex = MainStudentListDG.SelectedIndex;
+                AddVisitationBTN.IsEnabled= true;
                 AddBTN.IsEnabled = false;
                 ChangeBTN.IsEnabled = true;
                 DeleteBTN.IsEnabled = true;
@@ -109,8 +120,32 @@ namespace EFnetVisitations
             ChangeBTN.IsEnabled = false;
             DeleteBTN.IsEnabled = false;
             AddBTN.IsEnabled = true;
-            UpDateMainTable();
+            UpDateStudentsTable();
             MessageBox.Show("Ученик успешно удален");
+        }
+
+        private async void AddVisitationBTN_Click(object sender, RoutedEventArgs e)
+        {
+            if(VistationDP.SelectedDate.ToString()!="")
+            {
+                var visit = new Visit()
+                {
+                    Id = Guid.NewGuid(),
+                    Date = (DateTime)VistationDP.SelectedDate,
+                    Student = selectedStudent
+                };
+                await _db.Visits.AddAsync(visit);
+                await _db.SaveChangesAsync();
+                UpDateVisitsTable();
+                AddVisitationBTN.IsEnabled = false;
+                MessageBox.Show("Дата посещения успешно добавлена!");
+            }
+            else MessageBox.Show("Заполните поле даты(В таблице посещения)!");
+        }
+
+        private void StudentVisitationsListDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            VisitsListselectedIndex = StudentVisitationsListDG.SelectedIndex;
         }
     }
 }

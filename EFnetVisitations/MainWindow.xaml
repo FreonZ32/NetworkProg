@@ -15,10 +15,10 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition Width="0.5*"></ColumnDefinition>
-                <ColumnDefinition Width="0.5*"></ColumnDefinition>
-                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                <ColumnDefinition Width="0.4*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
@@ -34,6 +34,33 @@
             <Button x:Name="ChangeBTN" Grid.Column="4" Grid.RowSpan="2" Content="Изменить" Margin="3" IsEnabled="False" Click="ChangeBTN_Click" ></Button>
             <Button x:Name="DeleteBTN" Grid.Column="5" Grid.RowSpan="2" Content="Удалить" Margin="3" IsEnabled="False" Click="DeleteBTN_Click" ></Button>
         </Grid>
-        <DataGrid x:Name="MainStudentListDG" Grid.Row="1" Margin="3" SelectionChanged="MainStudentListDG_SelectionChanged"></DataGrid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="1" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.12*"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <DatePicker x:Name="VistationDP" Grid.Column="0" Grid.Row="0" Margin="3"></DatePicker>
+                <Button x:Name="AddVisitationBTN" Grid.Column="1" Grid.Row="0" IsEnabled="False" Content="Добавить" Click="AddVisitationBTN_Click"></Button>
+                <Button Grid.Column="2" Grid.Row="0" IsEnabled="False" Content="Удалить"></Button>
+                <DataGrid x:Name="StudentVisitationsListDG" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Margin="3" SelectionChanged="StudentVisitationsListDG_SelectionChanged"></DataGrid>
+            </Grid>
+            <Label Grid.Row="0" Grid.Column="0" Content="Таблица студентов" HorizontalAlignment="Center" FontSize="18"></Label>
+            <Label Grid.Row="0" Grid.Column="1" Content="Таблица посещений" HorizontalAlignment="Center" FontSize="18"></Label>
+            <DataGrid x:Name="MainStudentListDG" Grid.Column="0" Grid.Row="1" Margin="3" SelectionChanged="MainStudentListDG_SelectionChanged"></DataGrid>
+        </Grid>
     </Grid>
 </Window>
