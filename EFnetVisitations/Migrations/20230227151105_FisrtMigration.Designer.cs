@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFnetVisitations.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20230224184438_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230227151105_FisrtMigration")]
+    partial class FisrtMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,7 +29,10 @@ namespace EFnetVisitations.Migrations
                     b.Property<DateTime>("Birthday")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FirstName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

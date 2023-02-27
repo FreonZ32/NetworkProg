@@ -5,7 +5,7 @@
 namespace EFnetVisitations.Migrations
 {
     /// <inheritdoc />
-    public partial class AddStudentsTable : Migration
+    public partial class FisrtMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
