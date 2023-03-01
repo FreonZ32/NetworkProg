@@ -52,7 +52,7 @@ namespace EFnetVisitations
         }
         public async void UpDateVisitsTable()
         {
-            visitsList = await _db.Visits.Include(visit => visit.Student).ToListAsync();
+            visitsList = await _db.Visits.Include(visit => visit.Student).Include(visit=>visit.Subject).ToListAsync();
             StudentVisitationsListDG.ItemsSource = visitsList;
         }
         public async void UpDateSubjectsTable()
