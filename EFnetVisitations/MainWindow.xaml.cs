@@ -26,9 +26,12 @@ namespace EFnetVisitations
         private DBContext _db = new DBContext();
         List<Student> studentList;
         List<Visit> visitsList;
+        List<Subject> subjectsList;
         Student selectedStudent;
+        Subject selectedSubject;
         int StudentListselectedIndex= 0;
         int VisitsListselectedIndex= 0;
+        int SubjectListselectedIndex= 0;
         bool changedOn = false;
 
         public MainWindow()
@@ -36,12 +39,29 @@ namespace EFnetVisitations
             InitializeComponent();
             studentList = new List<Student>();
             visitsList = new List<Visit>();
+            subjectsList = new List<Subject>();
             selectedStudent= new Student();   
             UpDateStudentsTable();
             UpDateVisitsTable();
+            UpDateSubjectsTable();
+        }
+        public async void UpDateStudentsTable()
+        {
+            studentList = await _db.Students.ToListAsync();
+            MainStudentListDG.ItemsSource = studentList;
+        }
+        public async void UpDateVisitsTable()
+        {
+            visitsList = await _db.Visits.Include(visit => visit.Student).ToListAsync();
+            StudentVisitationsListDG.ItemsSource = visitsList;
+        }
+        public async void UpDateSubjectsTable()
+        {
+            subjectsList = await _db.Subjects.ToListAsync();
+            StudentSubjectListDG.ItemsSource = subjectsList;
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private async void AddBTN_Click(object sender, RoutedEventArgs e)
         {
             if (changedOn == true)
             {
@@ -54,7 +74,7 @@ namespace EFnetVisitations
                     LastNameTB.Text = "";
                     student.Birthday = (DateTime)BirthDayDP.SelectedDate;
                     await _db.SaveChangesAsync();
-                    AddBTN.Content = "Изменить";
+                    AddBTN.Content = "Добавить";
                     changedOn = false;
                     UpDateStudentsTable();
                     MessageBox.Show("Данные ученика успешно изменены!");
@@ -73,17 +93,6 @@ namespace EFnetVisitations
                 else MessageBox.Show("Заполните все поля!");
             }
         }
-        public async void UpDateStudentsTable()
-        {
-            studentList = await _db.Students.ToListAsync();
-            MainStudentListDG.ItemsSource = studentList;
-        }
-        public async void UpDateVisitsTable()
-        {
-            visitsList = await _db.Visits.Include(visit => visit.Student).ToListAsync();
-            StudentVisitationsListDG.ItemsSource = visitsList;
-        }
-
         private void MainStudentListDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (MainStudentListDG.SelectedIndex+1!=MainStudentListDG.Items.Count && MainStudentListDG.SelectedIndex!=-1)
@@ -126,13 +135,14 @@ namespace EFnetVisitations
 
         private async void AddVisitationBTN_Click(object sender, RoutedEventArgs e)
         {
-            if(VistationDP.SelectedDate.ToString()!="")
+            if(VistationDP.SelectedDate.ToString()!="" && selectedStudent!=null && selectedSubject!=null)
             {
                 var visit = new Visit()
                 {
                     Id = Guid.NewGuid(),
                     Date = (DateTime)VistationDP.SelectedDate,
-                    Student = selectedStudent
+                    Student = selectedStudent,
+                    Subject = selectedSubject
                 };
                 await _db.Visits.AddAsync(visit);
                 await _db.SaveChangesAsync();
@@ -142,10 +152,32 @@ namespace EFnetVisitations
             }
             else MessageBox.Show("Заполните поле даты(В таблице посещения)!");
         }
-
+        private async void AddSubjectBTN_Click(object sender, RoutedEventArgs e)
+        {
+            if(SubjectTB.Text!=""&& SubjectTB.Text!=null)
+            {
+                var subject = new Subject()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = SubjectTB.Text,
+                };
+                await _db.Subjects.AddAsync(subject);
+                await _db.SaveChangesAsync();
+                UpDateSubjectsTable();
+                AddSubjectBTN.IsEnabled = false;
+                MessageBox.Show("Предмет успешно добавлен!");
+            }
+            else MessageBox.Show("Заполните поле названия предмета(В таблице предметов)!");
+        }
         private void StudentVisitationsListDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             VisitsListselectedIndex = StudentVisitationsListDG.SelectedIndex;
+        }
+
+        private void StudentSubjectListDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SubjectListselectedIndex= StudentSubjectListDG.SelectedIndex;
+            selectedSubject = (Subject)StudentSubjectListDG.Items[StudentSubjectListDG.SelectedIndex];
         }
     }
 }

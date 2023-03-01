@@ -37,6 +37,20 @@ namespace EFnetVisitations.Migrations
                     b.ToTable("Students");
                 });
 
+            modelBuilder.Entity("EFnetVisitations.Entities.Subject", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subjects");
+                });
+
             modelBuilder.Entity("EFnetVisitations.Entities.Visit", b =>
                 {
                     b.Property<Guid>("Id")
@@ -49,9 +63,35 @@ namespace EFnetVisitations.Migrations
                     b.Property<Guid>("StudentId")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("SubjectId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("SubjectId");
+
                     b.ToTable("Visits");
+                });
+
+            modelBuilder.Entity("EFnetVisitations.Entities.Visit", b =>
+                {
+                    b.HasOne("EFnetVisitations.Entities.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EFnetVisitations.Entities.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+
+                    b.Navigation("Subject");
                 });
 #pragma warning restore 612, 618
         }
