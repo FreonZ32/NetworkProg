@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace EFnetVisitations
 {
@@ -226,21 +227,27 @@ namespace EFnetVisitations
         }
         private async void SearchStudentTB_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var studentsMatches =await _db.Students.Where(s => SearchStudentTB.Text == s.FirstName || SearchStudentTB.Text == s.LastName).ToListAsync();
-            MainStudentListDG.ItemsSource = studentsMatches;
-            var groupMatches = await _db.Groups.Where(g => g.Name.Contains(SearchStudentTB.Text)
-            || g.Students!.Any(it => SearchStudentTB.Text == it.FirstName || SearchStudentTB.Text == it.LastName)).ToListAsync();
-            GroupsListDG.ItemsSource = groupMatches;
+            if(SearchStudentTB.Text!= "Поиск...")
+            {
+                var studentsMatches = await _db.Students.Where(s => SearchStudentTB.Text == s.FirstName || SearchStudentTB.Text == s.LastName).ToListAsync();
+                MainStudentListDG.ItemsSource = studentsMatches;
+                var groupMatches = await _db.Groups.Where(g => g.Name.Contains(SearchStudentTB.Text)
+                || g.Students!.Any(it => SearchStudentTB.Text == it.FirstName || SearchStudentTB.Text == it.LastName)).ToListAsync();
+                GroupsListDG.ItemsSource = groupMatches;
+            }
         }
 
         private void SearchStudentTB_GotFocus(object sender, RoutedEventArgs e)
         {
             if(SearchStudentTB.Text == "Поиск...")
             SearchStudentTB.Text = "";
-            else
+        }
+
+        private void SearchStudentTB_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (SearchStudentTB.Text != "Поиск...")
             {
                 SearchStudentTB.Text = "Поиск...";
-                UpDateGroupsTable();
             }
         }
     }

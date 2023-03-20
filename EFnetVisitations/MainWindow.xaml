@@ -105,7 +105,7 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
-                <TextBox x:Name="SearchStudentTB" Margin="3" Text="Поиск..." Height="30" TextChanged="SearchStudentTB_TextChanged" GotFocus="SearchStudentTB_GotFocus" ></TextBox>
+                <TextBox x:Name="SearchStudentTB" Margin="3" Text="Поиск..." Height="30" TextChanged="SearchStudentTB_TextChanged" GotFocus="SearchStudentTB_GotFocus" LostFocus="SearchStudentTB_LostFocus" ></TextBox>
             </StackPanel>
         </Grid>
     </Grid>
