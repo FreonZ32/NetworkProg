@@ -41,14 +41,12 @@ namespace EFnetVisitations
             subjectsList = new List<Subject>();
             groupsList = new List<Group>();
             selectedStudent = new Student();
-            UpDateVisitsTable();
             UpDateSubjectsTable();
             UpDateGroupsTable();
         }
         //Other functions
         public async void UpDateStudentsTable()
         {
-            //studentList = await _db.Students.Include(students=>students.Group).ToListAsync();
             studentList = await _db.Students.Where(s => s.Group.Id == selectedGroup.Id).ToListAsync();
             MainStudentListDG.ItemsSource = studentList;
         }
@@ -56,7 +54,6 @@ namespace EFnetVisitations
         {
             visitsList = await _db.Visits.Where(v => v.Student.Id == selectedStudent.Id)
                 .Include(visit => visit.Student).Include(visit => visit.Subject).ToListAsync();
-            //visitsList = await _db.Visits.Include(visit => visit.Student).Include(visit => visit.Subject).ToListAsync();
             StudentVisitationsListDG.ItemsSource = visitsList;
         }
         public async void UpDateSubjectsTable()
