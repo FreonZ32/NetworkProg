@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace EFnetVisitations.Entities
 {
-    class Subject
+    class Group
     {
         public Guid Id { get; set; }
         public string? Name { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public List<Student>? Students { get; set; }
+        //public Nullable<int> StudentsCount => Students.Count;
         public override string ToString()
         {
-            if(Name != null)return Name;
-            else return "No_name";
+            return Name;
         }
     }
 }

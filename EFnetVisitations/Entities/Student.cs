@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace EFnetVisitations.Entities
 {
-    internal class Student
+    class Student
     {
         public Guid Id { get; init; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public DateTime Birthday { get; set; }
-
+        public List<Visit>? Visits { get; set; }
+        public Guid GroupId { get; set; }
+        public Group? Group { get; set; }
         public override string ToString()
         {
             return FirstName+LastName;

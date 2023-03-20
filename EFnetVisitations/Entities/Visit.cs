@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EFnetVisitations.Entities
 {
-    internal class Visit
+    class Visit
     {
         public Guid Id { get; set; }
         public DateTime Date { get; set; }
