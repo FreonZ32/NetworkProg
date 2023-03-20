@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EFnetVisitations"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1300">
+        Title="MainWindow" Height="600" Width="1300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -95,6 +96,17 @@
             <Label Grid.Row="0" Grid.Column="2" Content="Таблица посещений" HorizontalAlignment="Center" FontSize="18"></Label>
             <Label Grid.Row="0" Grid.Column="3" Content="Таблица предметов" HorizontalAlignment="Center" FontSize="18"></Label>
             <DataGrid x:Name="MainStudentListDG" Grid.Column="1" Grid.Row="1" Margin="3" SelectionChanged="MainStudentListDG_SelectionChanged" IsReadOnly="True"></DataGrid>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <TextBox x:Name="SearchStudentTB" Margin="3" Text="Поиск..." Height="30" TextChanged="SearchStudentTB_TextChanged" GotFocus="SearchStudentTB_GotFocus" ></TextBox>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>

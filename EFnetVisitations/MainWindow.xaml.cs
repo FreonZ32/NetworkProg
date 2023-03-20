@@ -127,8 +127,6 @@ namespace EFnetVisitations
                 else MessageBox.Show("Заполните все поля!");
             }
         }
-        
-
         private void ChangeBTN_Click(object sender, RoutedEventArgs e)
         {
             if (changedOn == false)
@@ -143,7 +141,6 @@ namespace EFnetVisitations
                 changedOn = true;
             }
         }
-
         private async void DeleteBTN_Click(object sender, RoutedEventArgs e)
         {
             var student = _db.Students.Where(c => c.Id == selectedStudent.Id).FirstOrDefault();
@@ -227,7 +224,24 @@ namespace EFnetVisitations
             UpDateGroupsTable();
             MessageBox.Show("Группа успешно удалена");
         }
+        private async void SearchStudentTB_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var studentsMatches =await _db.Students.Where(s => SearchStudentTB.Text == s.FirstName || SearchStudentTB.Text == s.LastName).ToListAsync();
+            MainStudentListDG.ItemsSource = studentsMatches;
+            var groupMatches = await _db.Groups.Where(g => g.Name.Contains(SearchStudentTB.Text)
+            || g.Students!.Any(it => SearchStudentTB.Text == it.FirstName || SearchStudentTB.Text == it.LastName)).ToListAsync();
+            GroupsListDG.ItemsSource = groupMatches;
+        }
 
-        
+        private void SearchStudentTB_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if(SearchStudentTB.Text == "Поиск...")
+            SearchStudentTB.Text = "";
+            else
+            {
+                SearchStudentTB.Text = "Поиск...";
+                UpDateGroupsTable();
+            }
+        }
     }
 }
