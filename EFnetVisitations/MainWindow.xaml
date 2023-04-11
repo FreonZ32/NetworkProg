@@ -28,7 +28,7 @@
             <Label Grid.Column="0" Grid.Row="0" Content="First Name" FontSize="20" HorizontalAlignment="Center"></Label>
             <Label Grid.Column="1" Grid.Row="0" Content="Second Name" FontSize="20" HorizontalAlignment="Center"></Label>
             <Label Grid.Column="2" Grid.Row="0" Content="BirthDay" FontSize="20" HorizontalAlignment="Center"></Label>
-            <TextBox x:Name="FirstNameTB" Grid.Column="0" Grid.Row="1" Margin="3"></TextBox>
+            <TextBox x:Name="FirstNameTB" Grid.Column="0" Grid.Row="1" Margin="3" GotFocus="FirstNameTB_GotFocus"></TextBox>
             <TextBox x:Name="LastNameTB" Grid.Column="1" Grid.Row="1" Margin="3"></TextBox>
             <DatePicker x:Name="BirthDayDP" Grid.Column="2" Grid.Row="1" Margin="3"></DatePicker>
             <Button x:Name="AddBTN" Grid.Column="3" Grid.RowSpan="2" Content="Добавить" Margin="3" IsEnabled="False" Click="AddBTN_Click" ></Button>

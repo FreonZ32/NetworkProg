@@ -1,0 +1,144 @@
+dbug: 11.04.2023 12:53:09.261 CoreEventId.ContextInitialized[10403] (Microsoft.EntityFrameworkCore.Infrastructure) 
+      Entity Framework Core 7.0.3 initialized 'DBContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite:7.0.3' with options: None
+dbug: 11.04.2023 12:53:09.346 CoreEventId.ContextDisposed[10407] (Microsoft.EntityFrameworkCore.Infrastructure) 
+      'DBContext' disposed.
+dbug: 11.04.2023 12:53:15.955 CoreEventId.ContextInitialized[10403] (Microsoft.EntityFrameworkCore.Infrastructure) 
+      Entity Framework Core 7.0.3 initialized 'DBContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite:7.0.3' with options: None
+dbug: 11.04.2023 12:53:15.966 RelationalEventId.ConnectionCreating[20005] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Creating DbConnection.
+dbug: 11.04.2023 12:53:15.977 RelationalEventId.ConnectionCreated[20006] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Created DbConnection. (10ms).
+dbug: 11.04.2023 12:53:15.978 RelationalEventId.MigrateUsingConnection[20400] (Microsoft.EntityFrameworkCore.Migrations) 
+      Migrating using database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:15.981 RelationalEventId.ConnectionCreating[20005] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Creating DbConnection.
+dbug: 11.04.2023 12:53:15.982 RelationalEventId.ConnectionCreated[20006] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Created DbConnection. (0ms).
+dbug: 11.04.2023 12:53:15.983 RelationalEventId.ConnectionOpening[20000] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opening connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:15.987 RelationalEventId.ConnectionOpened[20001] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opened connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:15.990 RelationalEventId.ConnectionDisposing[20007] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Disposing connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:15.992 RelationalEventId.ConnectionDisposed[20008] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Disposed connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db' (0ms).
+dbug: 11.04.2023 12:53:15.995 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteScalar'.
+dbug: 11.04.2023 12:53:15.998 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteScalar' (2ms).
+dbug: 11.04.2023 12:53:15.999 RelationalEventId.CommandInitialized[20106] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Initialized DbCommand for 'ExecuteScalar' (4ms).
+dbug: 11.04.2023 12:53:15.999 RelationalEventId.ConnectionOpening[20000] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opening connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:16.000 RelationalEventId.ConnectionOpened[20001] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opened connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:16.002 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsHistory' AND "type" = 'table';
+info: 11.04.2023 12:53:16.009 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsHistory' AND "type" = 'table';
+dbug: 11.04.2023 12:53:16.010 RelationalEventId.ConnectionClosing[20002] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closing connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:16.011 RelationalEventId.ConnectionClosed[20003] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closed connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db' (1ms).
+dbug: 11.04.2023 12:53:16.012 RelationalEventId.ConnectionCreating[20005] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Creating DbConnection.
+dbug: 11.04.2023 12:53:16.012 RelationalEventId.ConnectionCreated[20006] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Created DbConnection. (0ms).
+dbug: 11.04.2023 12:53:16.012 RelationalEventId.ConnectionOpening[20000] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opening connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:16.012 RelationalEventId.ConnectionOpened[20001] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opened connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:16.012 RelationalEventId.ConnectionDisposing[20007] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Disposing connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:16.012 RelationalEventId.ConnectionDisposed[20008] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Disposed connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db' (0ms).
+dbug: 11.04.2023 12:53:16.012 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteScalar'.
+dbug: 11.04.2023 12:53:16.012 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteScalar' (0ms).
+dbug: 11.04.2023 12:53:16.012 RelationalEventId.CommandInitialized[20106] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Initialized DbCommand for 'ExecuteScalar' (0ms).
+dbug: 11.04.2023 12:53:16.012 RelationalEventId.ConnectionOpening[20000] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opening connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:16.012 RelationalEventId.ConnectionOpened[20001] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opened connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:16.012 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsHistory' AND "type" = 'table';
+info: 11.04.2023 12:53:16.013 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsHistory' AND "type" = 'table';
+dbug: 11.04.2023 12:53:16.013 RelationalEventId.ConnectionClosing[20002] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closing connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:16.013 RelationalEventId.ConnectionClosed[20003] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closed connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db' (0ms).
+dbug: 11.04.2023 12:53:16.022 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 11.04.2023 12:53:16.022 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (0ms).
+dbug: 11.04.2023 12:53:16.022 RelationalEventId.CommandInitialized[20106] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Initialized DbCommand for 'ExecuteReader' (0ms).
+dbug: 11.04.2023 12:53:16.022 RelationalEventId.ConnectionOpening[20000] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opening connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:16.022 RelationalEventId.ConnectionOpened[20001] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opened connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:16.022 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "MigrationId", "ProductVersion"
+      FROM "__EFMigrationsHistory"
+      ORDER BY "MigrationId";
+info: 11.04.2023 12:53:16.023 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "MigrationId", "ProductVersion"
+      FROM "__EFMigrationsHistory"
+      ORDER BY "MigrationId";
+dbug: 11.04.2023 12:53:16.024 RelationalEventId.DataReaderClosing[20301] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Closing data reader to 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:16.025 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader for 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db' is being disposed after spending 1ms reading results.
+dbug: 11.04.2023 12:53:16.025 RelationalEventId.ConnectionClosing[20002] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closing connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:16.025 RelationalEventId.ConnectionClosed[20003] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closed connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db' (0ms).
+info: 11.04.2023 12:53:16.033 RelationalEventId.MigrationApplying[20402] (Microsoft.EntityFrameworkCore.Migrations) 
+      Applying migration '20230411075309_AddedIndexedOfFirstNameAndLastName'.
+dbug: 11.04.2023 12:53:16.046 RelationalEventId.ConnectionOpening[20000] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opening connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:16.046 RelationalEventId.ConnectionOpened[20001] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opened connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:16.047 RelationalEventId.TransactionStarting[20209] (Microsoft.EntityFrameworkCore.Database.Transaction) 
+      Beginning transaction with isolation level 'Unspecified'.
+dbug: 11.04.2023 12:53:16.049 RelationalEventId.TransactionStarted[20200] (Microsoft.EntityFrameworkCore.Database.Transaction) 
+      Began transaction with isolation level 'Serializable'.
+dbug: 11.04.2023 12:53:16.050 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteNonQuery'.
+dbug: 11.04.2023 12:53:16.050 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteNonQuery' (0ms).
+dbug: 11.04.2023 12:53:16.050 RelationalEventId.CommandInitialized[20106] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+dbug: 11.04.2023 12:53:16.050 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+      VALUES ('20230411075309_AddedIndexedOfFirstNameAndLastName', '7.0.3');
+info: 11.04.2023 12:53:16.051 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+      VALUES ('20230411075309_AddedIndexedOfFirstNameAndLastName', '7.0.3');
+dbug: 11.04.2023 12:53:16.052 RelationalEventId.TransactionCommitting[20210] (Microsoft.EntityFrameworkCore.Database.Transaction) 
+      Committing transaction.
+dbug: 11.04.2023 12:53:16.145 RelationalEventId.TransactionCommitted[20202] (Microsoft.EntityFrameworkCore.Database.Transaction) 
+      Committed transaction.
+dbug: 11.04.2023 12:53:16.145 RelationalEventId.TransactionDisposed[20204] (Microsoft.EntityFrameworkCore.Database.Transaction) 
+      Disposing transaction.
+dbug: 11.04.2023 12:53:16.145 RelationalEventId.ConnectionClosing[20002] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closing connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:16.145 RelationalEventId.ConnectionClosed[20003] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closed connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db' (0ms).
+dbug: 11.04.2023 12:53:16.147 CoreEventId.ContextDisposed[10407] (Microsoft.EntityFrameworkCore.Infrastructure) 
+      'DBContext' disposed.
+dbug: 11.04.2023 12:53:16.147 RelationalEventId.ConnectionDisposing[20007] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Disposing connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db'.
+dbug: 11.04.2023 12:53:16.147 RelationalEventId.ConnectionDisposed[20008] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Disposed connection to database 'main' on server 'I:\VisualStudio\NetworkProg\EFnetVisitations\bin\Debug\net7.0-windows\hello.db' (0ms).

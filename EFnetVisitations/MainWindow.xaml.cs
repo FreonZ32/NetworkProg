@@ -53,8 +53,12 @@ namespace EFnetVisitations
         }
         public async void UpDateVisitsTable()
         {
-            visitsList = await _db.Visits.Where(v => v.Student.Id == selectedStudent.Id)
-                .Include(visit => visit.Student).Include(visit => visit.Subject).ToListAsync();
+            if(selectedStudent!= null && selectedSubject != null)
+            {
+                visitsList = await _db.Visits.Where(v => v.Student.Id == selectedStudent.Id).Where(visit => visit.Subject.Id == selectedSubject.Id)
+                .Include(visit => visit.Student).ToListAsync();
+            }
+            else visitsList = new List<Visit> { };
             StudentVisitationsListDG.ItemsSource = visitsList;
         }
         public async void UpDateSubjectsTable()
@@ -77,6 +81,7 @@ namespace EFnetVisitations
                 ChangeBTN.IsEnabled = true;
                 DeleteBTN.IsEnabled = true;
                 selectedStudent = (Student)MainStudentListDG.Items[MainStudentListDG.SelectedIndex];
+                UpDateVisitsTable();
             }
         }
         private async void GroupsListDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -108,6 +113,7 @@ namespace EFnetVisitations
                     student.LastName = LastNameTB.Text;
                     LastNameTB.Text = "";
                     student.Birthday = (DateTime)BirthDayDP.SelectedDate;
+                    BirthDayDP.SelectedDate = null;
                     await _db.SaveChangesAsync();
                     AddBTN.Content = "Добавить";
                     changedOn = false;
@@ -168,7 +174,6 @@ namespace EFnetVisitations
                 await _db.Visits.AddAsync(visit);
                 await _db.SaveChangesAsync();
                 UpDateVisitsTable();
-                AddVisitationBTN.IsEnabled = false;
                 MessageBox.Show("Дата посещения успешно добавлена!");
             }
             else MessageBox.Show("Выберите ученика, предмет и заполните поле даты(В таблице посещения)!");
@@ -229,6 +234,14 @@ namespace EFnetVisitations
         {
             if(SearchStudentTB.Text!= "Поиск...")
             {
+                Debouncing isStart = new Debouncing(SearchStudentTB.Text);
+                isStart.TextRelevant(SearchStudentTB.Text);
+                if (isStart.isRelevant) return;
+                var searchText = SearchStudentTB.Text;
+                await Task.Delay(TimeSpan.FromMilliseconds(500));
+                var isTextRelevant = searchText == SearchStudentTB.Text;
+                if(isTextRelevant) { return; }
+
                 var studentsMatches = await _db.Students.Where(s => SearchStudentTB.Text == s.FirstName || SearchStudentTB.Text == s.LastName).ToListAsync();
                 MainStudentListDG.ItemsSource = studentsMatches;
                 var groupMatches = await _db.Groups.Where(g => g.Name.Contains(SearchStudentTB.Text)
@@ -249,6 +262,15 @@ namespace EFnetVisitations
             {
                 SearchStudentTB.Text = "Поиск...";
             }
+        }
+
+        private void FirstNameTB_GotFocus(object sender, RoutedEventArgs e)
+        {
+            AddVisitationBTN.IsEnabled = false;
+            AddBTN.IsEnabled = true;
+            ChangeBTN.IsEnabled = false;
+            DeleteBTN.IsEnabled = false;
+            selectedStudent = null;
         }
     }
 }

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HeadHunter", "HeadHunter\He
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ADOnetVisitation", "AddNetVisitation\ADOnetVisitation.csproj", "{890FAA1B-E597-4FB7-AE2A-8E7DEA9F8D8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFnetVisitations", "EFnetVisitations\EFnetVisitations.csproj", "{CC45666D-A7DA-4098-B6A7-9E9EB8771175}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFnetVisitations", "EFnetVisitations\EFnetVisitations.csproj", "{CC45666D-A7DA-4098-B6A7-9E9EB8771175}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
