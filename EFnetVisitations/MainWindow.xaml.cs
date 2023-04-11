@@ -22,7 +22,7 @@ namespace EFnetVisitations
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow: Window
+    public partial class MainWindow : Window
     {
         private DBContext _db = new DBContext();
         List<Student> studentList;
@@ -50,10 +50,12 @@ namespace EFnetVisitations
         {
             studentList = await _db.Students.Where(s => s.Group.Id == selectedGroup.Id).ToListAsync();
             MainStudentListDG.ItemsSource = studentList;
+            MainStudentListDG.Columns[5].Visibility = Visibility.Hidden;
+            MainStudentListDG.Columns[6].Visibility = Visibility.Hidden;
         }
         public async void UpDateVisitsTable()
         {
-            if(selectedStudent!= null && selectedSubject != null)
+            if (selectedStudent != null && selectedSubject != null)
             {
                 visitsList = await _db.Visits.Where(v => v.Student.Id == selectedStudent.Id).Where(visit => visit.Subject.Id == selectedSubject.Id)
                 .Include(visit => visit.Student).ToListAsync();
@@ -70,6 +72,7 @@ namespace EFnetVisitations
         {
             groupsList = await _db.Groups.ToListAsync();
             GroupsListDG.ItemsSource = groupsList;
+            //GroupsListDG.Columns[2].Visibility = Visibility.Hidden;
         }
         //DataSelectionsChanged
         private void MainStudentListDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -86,53 +89,69 @@ namespace EFnetVisitations
         }
         private async void GroupsListDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(GroupsListDG.SelectedIndex != -1) 
+            if (GroupsListDG.SelectedIndex != -1)
             {
                 selectedGroup = (Group)GroupsListDG.Items[GroupsListDG.SelectedIndex];
                 UpDateStudentsTable();
-                AddBTN.IsEnabled= true;
-                DeleteGroupBTN.IsEnabled= true;
+                AddBTN.IsEnabled = true;
+                DeleteGroupBTN.IsEnabled = true;
             }
         }
         private void StudentSubjectListDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedSubject = (Subject)StudentSubjectListDG.Items[StudentSubjectListDG.SelectedIndex];
             UpDateVisitsTable();
-            DeleteSubjectBTN.IsEnabled = true; 
+            DeleteSubjectBTN.IsEnabled = true;
         }
         //Buttons
         private async void AddBTN_Click(object sender, RoutedEventArgs e)
         {
-            if (changedOn == true)
+            try
             {
-                if (FirstNameTB.Text != "" && LastNameTB.Text != "" && BirthDayDP.SelectedDate.ToString() != "")
+                if (changedOn == true)
                 {
-                    var student = _db.Students.Where(c => c.Id == selectedStudent.Id).FirstOrDefault();
-                    student.FirstName = FirstNameTB.Text;
-                    FirstNameTB.Text = "";
-                    student.LastName = LastNameTB.Text;
-                    LastNameTB.Text = "";
-                    student.Birthday = (DateTime)BirthDayDP.SelectedDate;
-                    BirthDayDP.SelectedDate = null;
-                    await _db.SaveChangesAsync();
-                    AddBTN.Content = "Добавить";
-                    changedOn = false;
-                    UpDateStudentsTable();
-                    MessageBox.Show("Данные ученика успешно изменены!");
+                    if (FirstNameTB.Text != "" && LastNameTB.Text != "" && BirthDayDP.SelectedDate.ToString() != "")
+                    {
+                        var student = _db.Students.Where(c => c.Id == selectedStudent.Id).FirstOrDefault();
+                        student.FirstName = FirstNameTB.Text;
+                        student.LastName = LastNameTB.Text;
+                        student.Birthday = (DateTime)BirthDayDP.SelectedDate;
+                        student.Passport = new Passport(PassSerTB.Text, PassNumTB.Text);
+                        await _db.SaveChangesAsync();
+                        AddBTN.Content = "Добавить";
+                        changedOn = false;
+                        InputFieldCleaner();
+                        UpDateStudentsTable();
+                        MessageBox.Show("Данные ученика успешно изменены!");
+                    }
+                    else MessageBox.Show("Заполните все поля!");
                 }
-                else MessageBox.Show("Заполните все поля!");
+                else
+                {
+                    if (FirstNameTB.Text != "" && LastNameTB.Text != "" && BirthDayDP.SelectedDate.ToString() != "")
+                    {
+                        await _db.Students.AddAsync(new Student()
+                        {
+                            FirstName = FirstNameTB.Text,
+                            LastName = LastNameTB.Text,
+                            Birthday = (DateTime)BirthDayDP.SelectedDate,
+                            Group = selectedGroup,
+                            Passport = new Passport(PassSerTB.Text, PassNumTB.Text)
+
+                        });
+                        InputFieldCleaner();
+                        await _db.SaveChangesAsync();
+                        UpDateStudentsTable();
+                        MessageBox.Show("Успешно добавлен!");
+                    }
+                    else MessageBox.Show("Заполните все поля!");
+                }
             }
-            else
+            catch (Exception ex) 
             {
-                if (FirstNameTB.Text != "" && LastNameTB.Text != "" && BirthDayDP.SelectedDate.ToString() != "")
-                {
-                    await _db.Students.AddAsync(new Student() { FirstName = FirstNameTB.Text, LastName = LastNameTB.Text, Birthday = (DateTime)BirthDayDP.SelectedDate, Group = selectedGroup });
-                    await _db.SaveChangesAsync();
-                    UpDateStudentsTable();
-                    MessageBox.Show("Успешно добавлен!");
-                }
-                else MessageBox.Show("Заполните все поля!");
+                MessageBox.Show(ex.Message);
             }
+            
         }
         private void ChangeBTN_Click(object sender, RoutedEventArgs e)
         {
@@ -142,6 +161,8 @@ namespace EFnetVisitations
                 FirstNameTB.Text = selectedStudent.FirstName;
                 LastNameTB.Text = selectedStudent.LastName;
                 BirthDayDP.SelectedDate = selectedStudent.Birthday;
+                PassSerTB.Text = selectedStudent.Passport.series;
+                PassNumTB.Text = selectedStudent.Passport.number;
                 ChangeBTN.IsEnabled = false;
                 DeleteBTN.IsEnabled = false;
                 AddBTN.IsEnabled = true;
@@ -205,13 +226,13 @@ namespace EFnetVisitations
         }
         private async void AddGroupBTN_Click(object sender, RoutedEventArgs e)
         {
-            if(GroupTB.Text!= "" && GroupTB.Text!= null) 
+            if (GroupTB.Text != "" && GroupTB.Text != null)
             {
                 var group = new Group()
                 {
                     Id = Guid.NewGuid(),
                     Name = GroupTB.Text,
-                    CreatedDate= DateTime.Now
+                    CreatedDate = DateTime.Now
                 };
                 await _db.Groups.AddAsync(group);
                 await _db.SaveChangesAsync();
@@ -232,11 +253,11 @@ namespace EFnetVisitations
         }
         private async void SearchStudentTB_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(SearchStudentTB.Text!= "Поиск...")
+            if (SearchStudentTB.Text != "Поиск...")
             {
                 var oldtext = SearchStudentTB.Text;
                 await Task.Delay(TimeSpan.FromMilliseconds(500));
-                if(oldtext == SearchStudentTB.Text) { return; }
+                if (oldtext == SearchStudentTB.Text) { return; }
                 var studentsMatches = await _db.Students.Where(s => s.FirstName.Contains(SearchStudentTB.Text) || s.LastName.Contains(SearchStudentTB.Text)).ToListAsync();
                 MainStudentListDG.ItemsSource = studentsMatches;
                 var groupMatches = await _db.Groups.Where(g => g.Name.Contains(SearchStudentTB.Text)
@@ -247,13 +268,13 @@ namespace EFnetVisitations
 
         private void SearchStudentTB_GotFocus(object sender, RoutedEventArgs e)
         {
-            if(SearchStudentTB.Text == "Поиск...")
-            SearchStudentTB.Text = "";
+            if (SearchStudentTB.Text == "Поиск...")
+                SearchStudentTB.Text = "";
         }
 
         private void SearchStudentTB_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (SearchStudentTB.Text != "Поиск..." && MainStudentListDG.Items.Count==0 || GroupsListDG.Items.Count == 0)
+            if (SearchStudentTB.Text != "Поиск..." && MainStudentListDG.Items.Count == 0 || GroupsListDG.Items.Count == 0)
             {
                 UpDateGroupsTable();
                 SearchStudentTB.Text = "Поиск...";
@@ -267,6 +288,14 @@ namespace EFnetVisitations
             ChangeBTN.IsEnabled = false;
             DeleteBTN.IsEnabled = false;
             selectedStudent = null;
+        }
+        public void InputFieldCleaner()
+        {
+            FirstNameTB.Text = "";
+            LastNameTB.Text = "";
+            BirthDayDP.SelectedDate = null;
+            PassSerTB.Text = "";
+            PassNumTB.Text = "";
         }
     }
 }

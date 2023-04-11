@@ -14,6 +14,7 @@ namespace EFnetVisitations.Entities
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public DateTime Birthday { get; set; }
+        public Passport? Passport { get; set; } = null;
         public List<Visit>? Visits { get; set; }
         public Guid GroupId { get; set; }
         public Group? Group { get; set; }
