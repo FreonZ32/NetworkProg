@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
+using Faker;
 
 namespace EFnetVisitations
 {
@@ -33,6 +34,9 @@ namespace EFnetVisitations
         Subject selectedSubject;
         Group selectedGroup;
         bool changedOn = false;
+        private const int studentsPerPage = 10;
+        private int selectedPage = 0;
+        bool selectionList = false; 
 
         public MainWindow()
         {
@@ -44,11 +48,12 @@ namespace EFnetVisitations
             selectedStudent = new Student();
             UpDateSubjectsTable();
             UpDateGroupsTable();
+            //loadSomeStudents(1,200);
         }
         //Other functions
         public async void UpDateStudentsTable()
         {
-            studentList = await _db.Students.Where(s => s.Group.Id == selectedGroup.Id).ToListAsync();
+            studentList = await _db.Students.Where(s => s.Group.Id == selectedGroup.Id).Skip(selectedPage).Take(studentsPerPage).ToListAsync();
             MainStudentListDG.ItemsSource = studentList;
             MainStudentListDG.Columns[5].Visibility = Visibility.Hidden;
             MainStudentListDG.Columns[6].Visibility = Visibility.Hidden;
@@ -72,6 +77,8 @@ namespace EFnetVisitations
         {
             groupsList = await _db.Groups.ToListAsync();
             GroupsListDG.ItemsSource = groupsList;
+            if(groupsList.Count > 0) 
+            { selectedGroup = groupsList[0]; }
             //GroupsListDG.Columns[2].Visibility = Visibility.Hidden;
         }
         //DataSelectionsChanged
@@ -90,9 +97,12 @@ namespace EFnetVisitations
         private async void GroupsListDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (GroupsListDG.SelectedIndex != -1)
-            {
+            { 
                 selectedGroup = (Group)GroupsListDG.Items[GroupsListDG.SelectedIndex];
-                UpDateStudentsTable();
+                selectedPage = 0;
+                if(selectionList ==false) 
+                { UpDateStudentsTable();}
+                else UpdateSearchStudents();
                 AddBTN.IsEnabled = true;
                 DeleteGroupBTN.IsEnabled = true;
             }
@@ -147,11 +157,11 @@ namespace EFnetVisitations
                     else MessageBox.Show("Заполните все поля!");
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
         }
         private void ChangeBTN_Click(object sender, RoutedEventArgs e)
         {
@@ -255,29 +265,32 @@ namespace EFnetVisitations
         {
             if (SearchStudentTB.Text != "Поиск...")
             {
-                var oldtext = SearchStudentTB.Text;
-                await Task.Delay(TimeSpan.FromMilliseconds(500));
-                if (oldtext == SearchStudentTB.Text) { return; }
-                var studentsMatches = await _db.Students.Where(s => s.FirstName.Contains(SearchStudentTB.Text) || s.LastName.Contains(SearchStudentTB.Text)).ToListAsync();
-                MainStudentListDG.ItemsSource = studentsMatches;
-                var groupMatches = await _db.Groups.Where(g => g.Name.Contains(SearchStudentTB.Text)
-                || g.Students!.Any(it => it.FirstName.Contains(SearchStudentTB.Text) || it.LastName.Contains(SearchStudentTB.Text))).ToListAsync();
-                GroupsListDG.ItemsSource = groupMatches;
+                //var oldtext = SearchStudentTB.Text;
+                //await Task.Delay(TimeSpan.FromMilliseconds(500));
+                //if (oldtext == SearchStudentTB.Text) { return; }
+                selectedPage= 0;
+                UpdateSearchStudents();
+                GroupsListDG.ItemsSource = null;
+                //UpdateSearchGroups();
             }
         }
-
+        private async void UpdateSearchStudents()
+        {
+            var studentsMatches = await _db.Students.Where(s => s.FirstName.Contains(SearchStudentTB.Text) || s.LastName.Contains(SearchStudentTB.Text)).Skip(selectedPage).Take(studentsPerPage).ToListAsync();
+            MainStudentListDG.ItemsSource = studentsMatches;
+        }
+        //private async void UpdateSearchGroups()
+        //{
+        //    var groupMatches = await _db.Groups.Where(g => g.Name.Contains(SearchStudentTB.Text)
+        //        || g.Students!.Any(it => it.FirstName.Contains(SearchStudentTB.Text) || it.LastName.Contains(SearchStudentTB.Text))).ToListAsync();
+        //    GroupsListDG.ItemsSource = groupMatches;
+        //}
         private void SearchStudentTB_GotFocus(object sender, RoutedEventArgs e)
         {
             if (SearchStudentTB.Text == "Поиск...")
+            { 
                 SearchStudentTB.Text = "";
-        }
-
-        private void SearchStudentTB_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (SearchStudentTB.Text != "Поиск..." && MainStudentListDG.Items.Count == 0 || GroupsListDG.Items.Count == 0)
-            {
-                UpDateGroupsTable();
-                SearchStudentTB.Text = "Поиск...";
+                selectionList = true;
             }
         }
 
@@ -296,6 +309,67 @@ namespace EFnetVisitations
             BirthDayDP.SelectedDate = null;
             PassSerTB.Text = "";
             PassNumTB.Text = "";
+        }
+
+        public async void loadSomeStudents(int group, int howMany)
+        {
+            for (int i = 0; i < howMany; i++)
+            {
+                selectedGroup = groupsList[group];
+                await _db.Students.AddAsync(new Student()
+                {
+                    FirstName = Faker.Name.First(),
+                    LastName = Faker.Name.Last(),
+                    Birthday = DateTime.Now,
+                    Group = selectedGroup,
+                    Passport = new Passport(((double)Faker.RandomNumber.Next(1000, 9999)).ToString(), ((double)Faker.RandomNumber.Next(100000, 999999)).ToString())
+
+                });
+                await _db.SaveChangesAsync();
+            }
+            UpDateStudentsTable();
+        }
+
+        private void StudentsListBackBTN_Click(object sender, RoutedEventArgs e)
+        {
+            if (selectedPage - studentsPerPage >=0)
+            {
+                selectedPage -= studentsPerPage;
+                if (selectionList == false) UpDateStudentsTable();
+                else UpdateSearchStudents();
+            }
+            PageNumber.Content = selectedPage;
+        }
+
+        private void StudentsListNextBTN_Click(object sender, RoutedEventArgs e)
+        {
+            int max;
+            if (selectionList == false)
+            {
+                max = _db.Students.Where(s => s.Group.Id == selectedGroup.Id).Count();
+                AllNumber.Content = max;
+            }
+            else
+            {
+                max = _db.Students.Where(s => s.FirstName.Contains(SearchStudentTB.Text) || s.LastName.Contains(SearchStudentTB.Text)).Count();
+                AllNumber.Content = max;
+            }
+            if (selectedPage + studentsPerPage < max)
+            {
+                selectedPage += studentsPerPage;
+                if (selectionList == false) UpDateStudentsTable();
+                else UpdateSearchStudents();
+            }
+            PageNumber.Content = selectedPage;
+        }
+
+        private void Clear_Click(object sender, RoutedEventArgs e)
+        {
+            SearchStudentTB.Text = "Поиск...";
+            selectionList= false;
+            selectedPage = 0;
+            UpDateGroupsTable();
+            UpDateStudentsTable();
         }
     }
 }

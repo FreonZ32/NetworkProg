@@ -110,8 +110,23 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
-                <TextBox x:Name="SearchStudentTB" Margin="3" Text="Поиск..." Height="30" TextChanged="SearchStudentTB_TextChanged" GotFocus="SearchStudentTB_GotFocus" LostFocus="SearchStudentTB_LostFocus" ></TextBox>
+                <TextBox x:Name="SearchStudentTB" Margin="3" Text="Поиск..." Height="30" TextChanged="SearchStudentTB_TextChanged" GotFocus="SearchStudentTB_GotFocus"></TextBox>
+                <Button x:Name="Clear" Content="Clear" Width="100" HorizontalAlignment="Left" Click="Clear_Click"></Button>
             </StackPanel>
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Button x:Name="StudentsListBackBTN" Content="Назад" Grid.Column="0" Grid.Row="0" Margin="3" Click="StudentsListBackBTN_Click" ></Button>
+                <Button x:Name="StudentsListNextBTN" Content="Вперед" Grid.Column="1" Grid.Row="0" Margin="3" Click="StudentsListNextBTN_Click" ></Button>
+                <Label x:Name="PageNumber" Grid.Column="0" Grid.Row="1"></Label>
+                <Label x:Name="AllNumber" Grid.Column="1" Grid.Row="1"></Label>
+            </Grid>
         </Grid>
     </Grid>
 </Window>
