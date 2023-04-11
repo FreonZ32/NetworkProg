@@ -234,18 +234,13 @@ namespace EFnetVisitations
         {
             if(SearchStudentTB.Text!= "Поиск...")
             {
-                Debouncing isStart = new Debouncing(SearchStudentTB.Text);
-                isStart.TextRelevant(SearchStudentTB.Text);
-                if (isStart.isRelevant) return;
-                var searchText = SearchStudentTB.Text;
+                var oldtext = SearchStudentTB.Text;
                 await Task.Delay(TimeSpan.FromMilliseconds(500));
-                var isTextRelevant = searchText == SearchStudentTB.Text;
-                if(isTextRelevant) { return; }
-
-                var studentsMatches = await _db.Students.Where(s => SearchStudentTB.Text == s.FirstName || SearchStudentTB.Text == s.LastName).ToListAsync();
+                if(oldtext == SearchStudentTB.Text) { return; }
+                var studentsMatches = await _db.Students.Where(s => s.FirstName.Contains(SearchStudentTB.Text) || s.LastName.Contains(SearchStudentTB.Text)).ToListAsync();
                 MainStudentListDG.ItemsSource = studentsMatches;
                 var groupMatches = await _db.Groups.Where(g => g.Name.Contains(SearchStudentTB.Text)
-                || g.Students!.Any(it => SearchStudentTB.Text == it.FirstName || SearchStudentTB.Text == it.LastName)).ToListAsync();
+                || g.Students!.Any(it => it.FirstName.Contains(SearchStudentTB.Text) || it.LastName.Contains(SearchStudentTB.Text))).ToListAsync();
                 GroupsListDG.ItemsSource = groupMatches;
             }
         }
@@ -258,8 +253,9 @@ namespace EFnetVisitations
 
         private void SearchStudentTB_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (SearchStudentTB.Text != "Поиск...")
+            if (SearchStudentTB.Text != "Поиск..." && MainStudentListDG.Items.Count==0 || GroupsListDG.Items.Count == 0)
             {
+                UpDateGroupsTable();
                 SearchStudentTB.Text = "Поиск...";
             }
         }
