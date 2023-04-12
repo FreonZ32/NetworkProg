@@ -265,10 +265,10 @@ namespace EFnetVisitations
         {
             if (SearchStudentTB.Text != "Поиск...")
             {
-                //var oldtext = SearchStudentTB.Text;
-                //await Task.Delay(TimeSpan.FromMilliseconds(500));
-                //if (oldtext == SearchStudentTB.Text) { return; }
-                selectedPage= 0;
+                var oldtext = SearchStudentTB.Text;
+                await Task.Delay(TimeSpan.FromMilliseconds(500));
+                if (oldtext == SearchStudentTB.Text) { return; }
+                selectedPage = 0;
                 UpdateSearchStudents();
                 GroupsListDG.ItemsSource = null;
                 //UpdateSearchGroups();
