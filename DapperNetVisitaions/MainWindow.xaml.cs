@@ -37,6 +37,16 @@ namespace DapperNetVisitaions
         {
             students = await _dbStudSer.GetStudents();
             StudentsDG.ItemsSource = students;
+            if(students.Count()== 0)
+            {
+                selectedStudent = null;
+                StudentsDG.SelectedIndex = -1;
+            }
+            else 
+            {
+                StudentsDG.SelectedIndex = 0;
+            }
+
         }
 
         private void AddNewStudentBTN_Click(object sender, RoutedEventArgs e)
@@ -125,6 +135,12 @@ namespace DapperNetVisitaions
         private void SearchCleanBTN_Click(object sender, RoutedEventArgs e)
         {
             SearchTB.Text = "Поиск...";
+            UpDateAllSudentsList();
+        }
+        private void DeleteStudentNameBTN_Click(object sender, RoutedEventArgs e)
+        {
+            _dbStudSer.Delete(selectedStudent);
+            MessageBox.Show("Студент успешно удален!");
             UpDateAllSudentsList();
         }
     }

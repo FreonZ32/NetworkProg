@@ -54,5 +54,10 @@ namespace DapperNetVisitaions
             var sql = @"UPDATE Students SET FirstName = @FirstName, LastName = @LastName, Birthday = @Birthday WHERE Id = @Id";
             _connection.Execute(sql, student);
         }
+        public void Delete(Student student)
+        {
+            var sql = @"DELETE FROM Students WHERE Id = @Id";
+            _connection.Execute(sql,student);
+        }
     }
 }
